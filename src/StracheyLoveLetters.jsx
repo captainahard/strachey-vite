@@ -136,18 +136,19 @@ const StracheyLoveLetters = () => {
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 p-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">FERRANTI MARK I</h1>
-          <p className="text-lg text-gray-600 font-mono">MANCHESTER UNIVERSITY COMPUTER • 1953</p>
-          <p className="text-sm text-gray-500 mt-2">Christopher Strachey's Love Letter Generator</p>
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">FERRANTI MARK I</h1>
+          <p className="text-base sm:text-lg text-gray-600 font-mono">MANCHESTER UNIVERSITY COMPUTER • 1953</p>
+          <p className="text-xs sm:text-sm text-gray-500 mt-2">Christopher Strachey's Love Letter Generator</p>
         </div>
 
         {/* Computer Console */}
-        <div className="bg-gray-400 border-4 border-gray-500 rounded-lg p-6 shadow-2xl">
+        <div className="bg-gray-400 border-4 border-gray-500 rounded-lg p-3 sm:p-6 shadow-2xl">
           
           {/* Top Control Rack */}
-          <div className="bg-gray-300 border-2 border-gray-400 rounded p-4 mb-4">
-            <div className="flex justify-between items-center">
+          <div className="bg-gray-300 border-2 border-gray-400 rounded p-2 sm:p-4 mb-4">
+            {/* Desktop Controls Layout */}
+            <div className="hidden lg:flex justify-between items-center">
               
               {/* Left Controls */}
               <div className="flex">
@@ -175,12 +176,42 @@ const StracheyLoveLetters = () => {
                 <ToggleSwitch label="HALT" />
               </div>
             </div>
+
+            {/* Mobile Controls Layout */}
+            <div className="flex flex-wrap lg:hidden justify-between items-center gap-4">
+              
+              {/* Left Controls */}
+              <div className="flex order-1">
+                <ToggleSwitch label="POWER" />
+                <ToggleSwitch label="READY" />
+                <Knob label="SPEED" />
+                <Meter label="LOAD" />
+              </div>
+
+              {/* Center Pilot Lamps */}
+              <div className="flex flex-col items-center order-3 sm:order-2">
+                <span className="text-xs font-mono mb-2 text-gray-700">STATUS</span>
+                <div className="flex">
+                  <PilotLamp color="red" isFlickering={lampsFlickering} />
+                  <PilotLamp color="green" isFlickering={lampsFlickering} />
+                  <PilotLamp color="blue" isFlickering={lampsFlickering} />
+                </div>
+              </div>
+
+              {/* Right Controls */}
+              <div className="flex order-2 sm:order-3">
+                <Meter label="TEMP" />
+                <Knob label="GAIN" />
+                <ToggleSwitch label="AUTO" />
+                <ToggleSwitch label="HALT" />
+              </div>
+            </div>
           </div>
 
-          {/* Main Console Area */}
-          <div className="flex gap-6">
+          {/* Desktop Layout (lg screens and up) */}
+          <div className="hidden lg:flex gap-6">
             
-            {/* Paper Output Area */}
+            {/* Paper Output Area - Desktop */}
             <div className="flex-1 bg-white border-2 border-gray-600 rounded p-4 relative">
               {/* Tractor Feed Paper */}
               <div className="border-l-4 border-r-4 border-dashed border-gray-300 min-h-96 p-4 bg-gray-50 relative">
@@ -207,7 +238,7 @@ const StracheyLoveLetters = () => {
               </div>
             </div>
 
-            {/* Control Panel */}
+            {/* Control Panel - Desktop */}
             <div className="w-64 bg-gray-300 border-2 border-gray-400 rounded p-4">
               <div className="text-center mb-4">
                 <span className="text-sm font-mono text-gray-700">GENERATOR CONTROL</span>
@@ -248,6 +279,80 @@ const StracheyLoveLetters = () => {
               <div className="mt-6 flex flex-wrap justify-center">
                 <ToggleSwitch label="PRINT" />
                 <Knob label="FEED" />
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile Layout (below lg screens) */}
+          <div className="flex flex-col gap-6 lg:hidden">
+            
+            {/* Control Panel - Mobile */}
+            <div className="w-full bg-gray-300 border-2 border-gray-400 rounded p-4">
+              <div className="text-center mb-4">
+                <span className="text-sm font-mono text-gray-700">GENERATOR CONTROL</span>
+              </div>
+              
+              {/* Lever Mechanism */}
+              <div className="flex justify-center mb-6">
+                <div className="relative">
+                  <div 
+                    className={`w-8 h-24 cursor-pointer transform transition-transform duration-300 ${
+                      leverPulled ? 'rotate-45' : 'rotate-0'
+                    }`}
+                    onClick={handleLeverPull}
+                    role="button"
+                    tabIndex={0}
+                    aria-label="Pull lever to generate love letter"
+                  >
+                    {/* Lever Handle */}
+                    <div className="w-full h-4 bg-red-600 border border-red-800 rounded-t-lg" />
+                    {/* Lever Shaft */}
+                    <div className="w-2 h-20 bg-gray-600 border border-gray-700 mx-auto" />
+                  </div>
+                  {/* Lever Base */}
+                  <div className="w-12 h-3 bg-gray-500 border border-gray-600 -mt-1 -ml-2" />
+                </div>
+              </div>
+
+              <div className="text-center">
+                <p className="text-xs font-mono text-gray-600 mb-2">
+                  {isGenerating ? 'GENERATING...' : 'PULL LEVER'}
+                </p>
+                <p className="text-xs text-gray-500">
+                  (Press SPACE or click lever)
+                </p>
+              </div>
+
+              {/* Additional Controls */}
+              <div className="mt-6 flex flex-wrap justify-center">
+                <ToggleSwitch label="PRINT" />
+                <Knob label="FEED" />
+              </div>
+            </div>
+
+            {/* Paper Output Area - Mobile */}
+            <div className="flex-1 bg-white border-2 border-gray-600 rounded p-2 sm:p-4 relative">
+              {/* Tractor Feed Paper */}
+              <div className="border-l-4 border-r-4 border-dashed border-gray-300 min-h-64 sm:min-h-80 p-2 sm:p-4 bg-gray-50 relative">
+                {/* Paper perforations */}
+                <div className="absolute left-0 top-0 bottom-0 w-4 flex flex-col justify-evenly">
+                  {[...Array(15)].map((_, i) => (
+                    <div key={i} className="w-2 h-2 bg-white border border-gray-400 rounded-full ml-1" />
+                  ))}
+                </div>
+                <div className="absolute right-0 top-0 bottom-0 w-4 flex flex-col justify-evenly">
+                  {[...Array(15)].map((_, i) => (
+                    <div key={i} className="w-2 h-2 bg-white border border-gray-400 rounded-full mr-1" />
+                  ))}
+                </div>
+
+                {/* Letter Output */}
+                <div 
+                  className="font-mono text-sm sm:text-base leading-relaxed whitespace-pre-wrap ml-6 sm:ml-8 mr-6 sm:mr-8 pt-4 sm:pt-8"
+                  style={{ fontFamily: 'Courier New, monospace' }}
+                >
+                  {displayedText}
+                </div>
               </div>
             </div>
           </div>
