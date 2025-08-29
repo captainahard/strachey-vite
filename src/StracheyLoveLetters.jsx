@@ -284,74 +284,101 @@ const StracheyLoveLetters = () => {
           </div>
 
           {/* Mobile Layout (below lg screens) */}
-          <div className="flex flex-col gap-6 lg:hidden">
+          <div className="flex flex-col gap-4 lg:hidden">
             
-            {/* Control Panel - Mobile */}
-            <div className="w-full bg-gray-300 border-2 border-gray-400 rounded p-4">
-              <div className="text-center mb-4">
-                <span className="text-sm font-mono text-gray-700">GENERATOR CONTROL</span>
-              </div>
+            {/* Mobile Main Interface - Lever and Paper Side by Side */}
+            <div className="flex gap-3">
               
-              {/* Lever Mechanism */}
-              <div className="flex justify-center mb-6">
-                <div className="relative">
-                  <div 
-                    className={`w-8 h-24 cursor-pointer transform transition-transform duration-300 ${
-                      leverPulled ? 'rotate-45' : 'rotate-0'
-                    }`}
-                    onClick={handleLeverPull}
-                    role="button"
-                    tabIndex={0}
-                    aria-label="Pull lever to generate love letter"
-                  >
-                    {/* Lever Handle */}
-                    <div className="w-full h-4 bg-red-600 border border-red-800 rounded-t-lg" />
-                    {/* Lever Shaft */}
-                    <div className="w-2 h-20 bg-gray-600 border border-gray-700 mx-auto" />
+              {/* Paper Output Area - Mobile (takes most of width) */}
+              <div className="flex-1 bg-white border-2 border-gray-600 rounded p-2 relative">
+                {/* Tractor Feed Paper */}
+                <div className="border-l-4 border-r-4 border-dashed border-gray-300 h-64 sm:h-72 p-2 bg-gray-50 relative">
+                  {/* Paper perforations */}
+                  <div className="absolute left-0 top-0 bottom-0 w-3 flex flex-col justify-evenly">
+                    {[...Array(12)].map((_, i) => (
+                      <div key={i} className="w-1.5 h-1.5 bg-white border border-gray-400 rounded-full ml-0.5" />
+                    ))}
                   </div>
-                  {/* Lever Base */}
-                  <div className="w-12 h-3 bg-gray-500 border border-gray-600 -mt-1 -ml-2" />
+                  <div className="absolute right-0 top-0 bottom-0 w-3 flex flex-col justify-evenly">
+                    {[...Array(12)].map((_, i) => (
+                      <div key={i} className="w-1.5 h-1.5 bg-white border border-gray-400 rounded-full mr-0.5" />
+                    ))}
+                  </div>
+
+                  {/* Letter Output */}
+                  <div 
+                    className="font-mono text-sm leading-relaxed whitespace-pre-wrap ml-4 mr-4 pt-3"
+                    style={{ fontFamily: 'Courier New, monospace' }}
+                  >
+                    {displayedText}
+                  </div>
                 </div>
               </div>
 
-              <div className="text-center">
-                <p className="text-xs font-mono text-gray-600 mb-2">
-                  {isGenerating ? 'GENERATING...' : 'PULL LEVER'}
-                </p>
-                <p className="text-xs text-gray-500">
-                  (Press SPACE or click lever)
-                </p>
-              </div>
+              {/* Control Panel - Mobile (compact, right side) */}
+              <div className="w-24 sm:w-28 bg-gray-300 border-2 border-gray-400 rounded p-2 flex flex-col justify-between">
+                
+                {/* Top Label */}
+                <div className="text-center mb-2">
+                  <span className="text-xs font-mono text-gray-700 block">GEN</span>
+                  <span className="text-xs font-mono text-gray-700 block">CTRL</span>
+                </div>
+                
+                {/* Lever Mechanism - Centered */}
+                <div className="flex justify-center flex-1 items-center">
+                  <div className="relative">
+                    <div 
+                      className={`w-6 sm:w-8 h-16 sm:h-20 cursor-pointer transform transition-transform duration-300 ${
+                        leverPulled ? 'rotate-45' : 'rotate-0'
+                      }`}
+                      onClick={handleLeverPull}
+                      role="button"
+                      tabIndex={0}
+                      aria-label="Pull lever to generate love letter"
+                    >
+                      {/* Lever Handle */}
+                      <div className="w-full h-3 bg-red-600 border border-red-800 rounded-t-lg" />
+                      {/* Lever Shaft */}
+                      <div className="w-1.5 sm:w-2 h-12 sm:h-16 bg-gray-600 border border-gray-700 mx-auto" />
+                    </div>
+                    {/* Lever Base */}
+                    <div className="w-8 sm:w-10 h-2 bg-gray-500 border border-gray-600 -mt-1 -ml-1 sm:-ml-1" />
+                  </div>
+                </div>
 
-              {/* Additional Controls */}
-              <div className="mt-6 flex flex-wrap justify-center">
-                <ToggleSwitch label="PRINT" />
-                <Knob label="FEED" />
+                {/* Instructions */}
+                <div className="text-center mt-2">
+                  <p className="text-xs font-mono text-gray-600 mb-1 font-bold">
+                    {isGenerating ? 'GEN...' : 'PULL'}
+                  </p>
+                  <p className="text-xs font-mono text-gray-600 font-bold">
+                    {isGenerating ? '' : 'LEVER'}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    TAP
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Paper Output Area - Mobile */}
-            <div className="flex-1 bg-white border-2 border-gray-600 rounded p-2 sm:p-4 relative">
-              {/* Tractor Feed Paper */}
-              <div className="border-l-4 border-r-4 border-dashed border-gray-300 min-h-64 sm:min-h-80 p-2 sm:p-4 bg-gray-50 relative">
-                {/* Paper perforations */}
-                <div className="absolute left-0 top-0 bottom-0 w-4 flex flex-col justify-evenly">
-                  {[...Array(15)].map((_, i) => (
-                    <div key={i} className="w-2 h-2 bg-white border border-gray-400 rounded-full ml-1" />
-                  ))}
+            {/* Mobile Bottom Controls - Smaller, Less Prominent */}
+            <div className="bg-gray-300 border border-gray-400 rounded p-2">
+              <div className="flex justify-center items-center gap-2">
+                <div className="scale-75">
+                  <ToggleSwitch label="PRINT" />
                 </div>
-                <div className="absolute right-0 top-0 bottom-0 w-4 flex flex-col justify-evenly">
-                  {[...Array(15)].map((_, i) => (
-                    <div key={i} className="w-2 h-2 bg-white border border-gray-400 rounded-full mr-1" />
-                  ))}
+                <div className="scale-75">
+                  <Knob label="FEED" />
                 </div>
-
-                {/* Letter Output */}
-                <div 
-                  className="font-mono text-sm sm:text-base leading-relaxed whitespace-pre-wrap ml-6 sm:ml-8 mr-6 sm:mr-8 pt-4 sm:pt-8"
-                  style={{ fontFamily: 'Courier New, monospace' }}
-                >
-                  {displayedText}
+                <div className="flex flex-col items-center mx-2">
+                  <span className="text-xs font-mono mb-1 text-gray-700">READY</span>
+                  <div className="flex gap-1">
+                    <PilotLamp color="green" isFlickering={lampsFlickering} />
+                    <PilotLamp color="red" isFlickering={lampsFlickering} />
+                  </div>
+                </div>
+                <div className="scale-75">
+                  <Meter label="STAT" />
                 </div>
               </div>
             </div>
