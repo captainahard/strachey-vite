@@ -1,0 +1,9 @@
+
+{
+  "rewrites": [
+    { "source": "/strachey", "destination": "/index.html" },
+    { "source": "/strachey/", "destination": "/index.html" },
+    { "source": "/strachey/assets/(.*)", "destination": "/assets/$1" },
+    { "source": "/strachey/(.*)", "destination": "/index.html" }
+  ]
+}
